@@ -1,0 +1,7 @@
+{
+  "id": "fmagnet",
+  "name": "Fabric Magnet",
+  "version": "${version}",
+  "side": "universal",
+  "initializer": "p455w0rd.fmagnet.FabricMagnet"
+}

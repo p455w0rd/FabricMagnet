@@ -1,0 +1,53 @@
+plugins {
+	id 'fabric-loom' version '0.1.0-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+archivesBaseName = "FabricMagnet"
+version = "1.14-" + getVersion()
+
+minecraft {
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:18w50a"
+	mappings "net.fabricmc:yarn:18w50a.39"
+	modCompile "net.fabricmc:fabric-loader:0.2.0.70"
+
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modCompile "net.fabricmc:fabric:0.1.1.58"
+}
+
+processResources {
+	inputs.property "modversion", project.version
+	from (sourceSets.main.resources.srcDirs) {
+		include "mod.json"
+		expand "version": project.version
+	}
+		
+	from (sourceSets.main.resources.srcDirs) {
+		exclude "mod.json"
+	}
+}
+
+String getVersion() {
+	String major = "0";
+	String revision = "0";
+	String patch = "0";
+	String prefix = "public static final String VERSION = \"";
+	File file = file("src/main/java/p455w0rd/fmagnet/init/ModGlobals.java")
+	file.eachLine { String s ->
+		s = s.trim();
+		if (s.startsWith(prefix)) {
+			s = s.substring(prefix.length(), s.length() - 2);
+			String[] pts = s.split("\\.");
+
+			major = pts[0];
+			revision = pts[1];
+			patch = pts[2];
+		}
+	}
+	return "$major.$revision.$patch";
+}
